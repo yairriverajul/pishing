@@ -1,0 +1,52 @@
+/* Reset básico */
+* {margin:0; padding:0; box-sizing:border-box;}
+
+/* Fuente similar a la de Facebook */
+body {font-family: Helvetica, Arial, sans-serif; background:#f0f2f5;}
+
+/* Header – barra azul */
+.fb-header {
+  background:#1877f2; color:#fff; height:48px; display:flex;
+  align-items:center; justify-content:space-between; padding:0 16px;
+}
+.fb-logo {height:30px;}
+.fb-search {
+  width:300px; padding:6px 12px; border:none; border-radius:4px;
+}
+.fb-header-right .fb-link {
+  color:#fff; margin-left:12px; text-decoration:none; font-size:14px;
+}
+
+/* Layout principal */
+.fb-main {display:flex; max-width:1200px; margin:20px auto;}
+
+/* Columnas */
+.fb-left, .fb-right {width:20%; padding:0 10px;}
+.fb-center {width:60%;}
+
+/* Menú izquierdo */
+.fb-menu {list-style:none;}
+.fb-menu li {margin:12px 0;}
+.fb-menu a {color:#050505; text-decoration:none; font-size:15px;}
+
+/* Tarjeta de login */
+.fb-login-card {
+  background:#fff; padding:20px; border-radius:8px;
+  box-shadow:0 1px 2px rgba(0,0,0,.1);
+}
+.fb-login-card h2 {margin-bottom:12px; font-size:22px; color:#1877f2;}
+.fb-login-card input, .fb-login-card textarea {
+  width:100%; padding:8px; margin-top:4px; margin-bottom:12px;
+  border:1px solid #ddd; border-radius:4px; font-size:14px;
+}
+.fb-btn {
+  background:#1877f2; color:#fff; border:none; padding:10px 16px;
+  border-radius:4px; cursor:pointer; font-weight:bold;
+}
+.fb-btn:hover {background:#166fe5;}
+
+/* Footer */
+.fb-footer {
+  text-align:center; padding:12px 0; font-size:12px; color:#777;
+  margin-top:30px;
+}
